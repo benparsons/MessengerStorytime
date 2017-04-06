@@ -1,0 +1,25 @@
+{
+  "name": "messenger-storytime",
+  "version": "0.0.1",
+  "description": "Interactive Text Fiction for Facebook Messenger",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benparsons/MessengerStorytime.git"
+  },
+  "author": "benparsons",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benparsons/MessengerStorytime/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "config": "^1.20.4",
+    "ejs": "^2.4.2",
+    "express": "^4.13.4",
+    "request": "^2.72.0"
+  }
+}
