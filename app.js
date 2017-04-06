@@ -236,6 +236,16 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
 
+
+  if (isEcho && metadata && messageAttachments && messageAttachments[0].type === 'image') {
+    console.log('===========');
+    console.log(messageAttachments);
+    console.log('===========');
+    console.log(recipientID);
+    console.log('===========');
+    sendStateAsButton(recipientID, metadata);
+  }
+
   if (isEcho) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s", 
@@ -370,10 +380,10 @@ function receivedPostback(event) {
   // let them know it was successful
   sendTextMessage(senderID, "Postback called: " + payload);
   if (content[payload].image) {
-    sendImageMessage(senderID, content[payload].image);
+    sendImageMessage(senderID, content[payload].image, payload);
+  } else {
+    sendStateAsButton(senderID, payload);
   }
-
-  sendStateAsButton(senderID, payload);
 }
 
 /*
@@ -418,7 +428,7 @@ function receivedAccountLink(event) {
  * Send an image using the Send API.
  *
  */
-function sendImageMessage(recipientId, filename) {
+function sendImageMessage(recipientId, filename, metadata) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -429,7 +439,8 @@ function sendImageMessage(recipientId, filename) {
         payload: {
           url: SERVER_URL + "/assets/" + filename
         }
-      }
+      },
+      metadata: metadata
     }
   };
 
