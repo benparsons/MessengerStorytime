@@ -17,7 +17,7 @@ const
   express = require('express'),
   https = require('https'),  
   request = require('request'),
-  content = require('./murdermystery2.json');
+  content = require('./murdermystery.json');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);

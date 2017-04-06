@@ -1,0 +1,4 @@
+{
+  "start": {"text": "Start text", "responses": [{"text":"go to murder scene", "link": "murderscene"}]},
+  "murderscene":  {"image": "rift.png", "text": "murder scene text", "responses": [{"text":"go to murder scene", "link": "murderscene"}]}
+}
