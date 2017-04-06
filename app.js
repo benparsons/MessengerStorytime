@@ -594,28 +594,17 @@ function sendGenericMessage(recipientId) {
           template_type: "generic",
           elements: [{
             title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: SERVER_URL + "/assets/rift.png",
+            subtitle: "Next-generation virtual reality how long can the copy be in this section? Can it be so long?",
+            image_url: SERVER_URL + "/assets/footprint.jpg",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
-            }, {
               type: "postback",
               title: "Call Postback",
               payload: "Payload for first bubble",
             }],
           }, {
             title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: SERVER_URL + "/assets/touch.png",
+            image_url: SERVER_URL + "/assets/misty-cabin.jpg",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
               type: "postback",
               title: "Call Postback",
               payload: "Payload for second bubble",
