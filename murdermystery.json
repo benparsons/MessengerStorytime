@@ -1,4 +1,42 @@
 {
-  "start": {"text": "Start text", "responses": [{"text":"go to murder scene", "link": "murderscene"}]},
-  "murderscene":  {"image": "misty-cabin.jpg", "text": "murder scene text", "responses": [{"text":"go to murder scene", "link": "murderscene"}]}
+  "start": {
+    "text": "Start text",
+    "responses": [
+      {
+        "text": "go to murder scene",
+        "link": "murderscene"
+      }
+    ]
+  },
+  "murderscene": {
+    "image": "misty-cabin.jpg",
+    "text": "murder scene text",
+    "responses": [
+      {
+        "text": "go to murder scene",
+        "link": "witnesshub"
+      }
+    ]
+  },
+  "witnesshub": {
+    "text": "witness hub text",
+    "responses": [
+      {
+        "text": "go to witness 1",
+        "link": "witness1"
+      },
+      {
+        "text": "go to witness 2",
+        "link": "witness2"
+      }
+    ]
+  },
+  "witness1": {
+    "text": "this is witness 1",
+    "responses": []
+  },
+  "witness2": {
+    "text": "this is witness 2",
+    "responses": []
+  }
 }
