@@ -1,42 +1,355 @@
 {
   "start": {
-    "text": "Start text",
+    "text": "Welcome to the decadent rich people party! Isn't this a fancy manor? [photo]",
     "responses": [
       {
-        "text": "go to murder scene",
+        "text": "Yes",
+        "link": "sillything"
+      },
+      {
+        "text": "No",
+        "link": "sillything"
+      }
+    ]
+  },
+  "sillything": {
+    "text": "It sure is a fancy manor! What are you having for dinner?",
+    "responses": [
+      {
+        "text": "[Steak and potatoes photo]",
+        "link": "murderscene"
+      },
+      {
+        "text": "[Easy mac photo]",
+        "link": "murderscene"
+      },
+      {
+        "text": "[Persian cat photo]",
         "link": "murderscene"
       }
     ]
   },
   "murderscene": {
-    "image": "misty-cabin.jpg",
-    "text": "murder scene text",
+    "text": "Terrific! You're sitting at a long banquet table dotted with candelabras, sterling silver cutlery in hand, ready to tuck in, when suddenly, a loud scream and a high-pitched scream come from the ballroom.",
     "responses": [
       {
-        "text": "go to murder scene",
+        "text": "Follow the crowd into the ballroom",
+        "link": "ballroom-1"
+      },
+      {
+        "text": "Continue eating [End 1]",
+        "link": "end-1"
+      }
+    ]
+  },
+  "ballroom-1": {
+    "text": "You rush into the ballroom and push past the gathered crowd and see the body of BUTLER DAVE, everybody's favorite butler, blood-soaked on the floor. You look around at the panicked faces of the party guests, but you are cool as...",
+    "responses": [
+      {
+        "text": "a cucumber",
+        "link": "ballroom-2"
+      },
+      {
+        "text": "the other side of the pillow.",
+        "link": "ballroom-2"
+      },
+      {
+        "text": "Cool Hand Luke locked in the freezer with a penguin who has been dead for many days.",
+        "link": "ballroom-2"
+      }
+    ]
+  },
+  "ballroom-2": {
+    "text": "Lucky a capable detective like you is on the scene! What do you do next?",
+    "responses": [
+      {
+        "text": "Ask the witnesses to step forward",
         "link": "witnesshub"
+      },
+      {
+        "text": "Inspect the body.",
+        "link": "victim-0"
       }
     ]
   },
   "witnesshub": {
-    "text": "witness hub text",
+    "text": "\"ALRIGHT YOU LOT, WHICHEVER OF YOU WERE IN THE BALLROOM WHEN THIS SORRY EVENT OCCURED, STEP FORWARD!\" Out of the crowd comes DR. WINSTON WHITTINGTON-FACE, beloved celebrity chiropractor, DAME LUCYNTHIA FUNT, heiress to the famed FUNT SYRUPS fortune, and DALE, THE URCHIN BOY step forward. Who do you approach first?",
     "responses": [
       {
-        "text": "go to witness 1",
-        "link": "witness1"
+        "text": "Dr. Whittington-Face",
+        "link": "witness-1-0"
       },
       {
-        "text": "go to witness 2",
-        "link": "witness2"
+        "text": "Dame Lucynthia",
+        "link": "witness-2-0"
+      },
+      {
+        "text": "Dale the urchin boy",
+        "link": "witness-3-0"
       }
     ]
   },
-  "witness1": {
-    "text": "this is witness 1",
+  "witnesshub-1": {
+    "text": "Who do you question next?",
+    "responses": [
+      {
+        "text": "Dame Lucynthia",
+        "link": "witness-2-0"
+      },
+      {
+        "text": "Dale the urchin boy",
+        "link": "witness-3-0"
+      }
+    ]
+  },
+  "witnesshub-2": {
+    "text": "Who do you question next?",
+    "responses": [
+      {
+        "text": "Dr. Whittington-Face",
+        "link": "witness-1-0"
+      },
+      {
+        "text": "Dale the urchin boy",
+        "link": "witness-2-0"
+      }
+    ]
+  },
+  "witnesshub-3": {
+    "text": "Who do you question next?",
+    "responses": [
+      {
+        "text": "Dr. Whittington-Face",
+        "link": "witness-1-0"
+      },
+      {
+        "text": "Dame Lucynthia",
+        "link": "witness-2-0"
+      }
+    ]
+  },
+  "victim-0": {
+    "text": "Dead.",
+    "responses": [
+      {
+        "text": "Ask the witnesses to step forward.",
+        "link": "witnesshub"
+      }
+    ]
+  },
+  "victim-1": {
+    "text": "Super dead.",
+    "responses": [
+      {
+        "text": "Speak to the witnesses",
+        "link": "witnesshub"
+      },
+      {
+        "text": "Leave",
+        "link": "leave"
+      }
+    ]
+  },
+  "victim-2": {
+    "text": "Mad dead.",
+    "responses": [
+      {
+        "text": "Speak to the witnesses",
+        "link": "witnesshub"
+      },
+      {
+        "text": "Leave",
+        "link": "leave"
+      }
+    ]
+  },
+  "victim-3": {
+    "text": "Ultra dead.",
+    "responses": [
+      {
+        "text": "Speak to the witnesses",
+        "link": "witnesshub"
+      },
+      {
+        "text": "Leave",
+        "link": "leave"
+      }
+    ]
+  },
+  "witness-1-0": {
+    "text": "You approach famous chiropractor DR. WINSTON WHITTINGTON-FACE, slightly starstruck by his celebrity status but determined to keep your wits about you.",
+    "responses": [
+      {
+        "text": "Ask him about the murder",
+        "link": "witness-1-1"
+      }
+    ]
+  },
+  "witness-1-1": {
+    "text": "\"DR. WHITTINGTON FACE, can you tell me anything about who did this?\" \"Yes of course!\" he exclaims \"It was one of my many rich and famous clients, the actress COURTNEY COX! She was wearing a catsuit, but I would recognize that spine from a mile away!\" What do you do next?",
+    "responses": [
+      {
+        "text": "Question another witness",
+        "link": "witnesshub-1"
+      },
+      {
+        "text": "Inpsect the body",
+        "link": "viction-1"
+      },
+      {
+        "text": "Ask him about backs.",
+        "link": "witness-1-2"
+      }
+    ]
+  },
+  "witness-1-2": {
+    "text": "Unable to contain yourself any longer, the words burst out of your mouth before you're even aware of them. \"Dr. Whittington-Face, please give me some wisdom about backs!\" Dr. Whittington-Face has a faraway gaze and a knowing smile. \"Well, my child,\" he says, \"A back is never as straight as the first time.\" You take a moment to soak in his words, awed by his insight, but quickly force yourself to regain composure and continue detecting.",
+    "responses": [
+      {
+        "text": "Question another witness",
+        "link": "witnesshub-1"
+      },
+      {
+        "text": "Inpsect the body",
+        "link": "victim-1"
+      },
+      {
+        "text": "Ask him about the murder.",
+        "link": "witness-1-1"
+      }
+    ]
+  },
+  "witness-2-0": {
+    "text": "You approach DAME LUCYNTHIA FUNT, heiress to the famed FUNT SYRUPS FORTUNE. \"Excuse me madame, can you tell me…\" \"Hello! Could I interested you in any of Papa's syrups?\" she interrupts.",
+    "responses": [
+      {
+        "text": "\"No ma'am, just the facts, please.\"",
+        "link": "witness-2-1"
+      }
+    ]
+  },
+  "witness-2-1": {
+    "text": "\"Are you sure? I have many syrups you could try. A simple syrup, perhaps?",
+    "responses": [
+      {
+        "text": "\"No I really couldn't. Please…\"",
+        "link": "witness-2-2"
+      }
+    ]
+  },
+  "witness-2-2": {
+    "text": "\"Maple?\"",
+    "responses": [
+      {
+        "text": "\"No…\"",
+        "link": "witness-2-3"
+      }
+    ]
+  },
+  "witness-2-3": {
+    "text": "\"Cough?\"",
+    "responses": [
+      {
+        "text": "\"Madame…\"",
+        "link": "witness-2-4"
+      }
+    ]
+  },
+  "witness-2-4": {
+    "text": "\"High-fructose corn?\"",
+    "responses": [
+      {
+        "text": "\"Please, I…\"",
+        "link": "witness-2-5"
+      }
+    ]
+  },
+  "witness-2-5": {
+    "text": "\"Of Ipecac?\"",
+    "responses": [
+      {
+        "text": "\"Sorry?\"",
+        "link": "witness-2-6"
+      }
+    ]
+  },
+  "witness-2-6": {
+    "text": "\"Just have a little taste of this one.\" She holds a jar with a viscous purple liquid under your nose.",
+    "responses": [
+      {
+        "text": "Relent and taste the syrup.",
+        "link": "witness-2-7"
+      }
+    ]
+  },
+  "witness-2-7": {
+    "text": "A mixture of sweet and tart which you immediately recognize as lingonberry overwhelms your tastebuds. \"Yes, it's lovely,\" you lie.",
+    "responses": [
+      {
+        "text": "Ask about the murder.",
+        "link": "witness-2-8"
+      }
+    ]
+  },
+  "witness-2-8": {
+    "text": "\"Please can I just ask you about the murder?\" you ask, exasperated. \"Oh that? Of course that was the actress Courtney Cox. I could smell father's special blend sugar-free hazelnut as soon as she entered the room. Everyone knows FUNT'S SUGAR-FREE HAZELNUT SYRUP is the preferred syrup of the cast of the 'SCREAM' franchise of films!\"",
+    "responses": [
+      {
+        "text": "Question another witness",
+        "link": "witnesshub-2"
+      },
+      {
+        "text": "Inpsect the body",
+        "link": "victim-2"
+      }
+    ]
+  },
+  "witness-3-0": {
+    "text": "Urchin (COPY NEEDED)",
+    "responses": [
+      {
+        "text": "Question another witness",
+        "link": "witnesshub-3"
+      },
+      {
+        "text": "Inpsect the body",
+        "link": "victim-3"
+      }
+    ]
+  },
+  "leave": {
+    "text": "Leave (COPY NEEDED)",
+    "responses": [
+      {
+        "text": "Trigger encounter (COPY NEEDED)",
+        "link": "encounter"
+      }
+    ]
+  },
+  "encounter": {
+    "text": "Encounter (COPY NEEDED)",
+    "responses": [
+      {
+        "text": "Tal to Murderer (COPY NEEDED)",
+        "link": "talktomurder"
+      }
+    ]
+  },
+  "talktomurderer": {
+    "text": "To to murder (COPY NEEDED)",
+    "responses": [
+      {
+        "text": "End 2 (COPY NEEDED)",
+        "link": "end-2"
+      }
+    ]
+  },
+  "end-1": {
+    "text": "You let the crowd run into the ballroom, leaving you alone to focus on the You finish your food and let out a long, satisfied burp. epicurean pleasure of your meal and leaving the dark realities of the world to others today.",
     "responses": []
   },
-  "witness2": {
-    "text": "this is witness 2",
+  "end-2": {
+    "text": "End 2 (COPY NEEDED)",
     "responses": []
   }
 }
