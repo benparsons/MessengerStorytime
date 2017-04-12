@@ -19,6 +19,8 @@ const
   request = require('request'),
   content = require('./public/murdermystery.json');
 
+var messagebuilder = require('./messagebuilder');
+
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -51,6 +53,7 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
 const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL');
+messagebuilder.setServerURL(SERVER_URL);
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
@@ -267,7 +270,7 @@ function receivedMessage(event) {
     // the text we received.
     switch (messageText) {
       case 'image':
-        sendImageMessage(senderID);
+        sendImageMessage(senderID, 'footprint.jpg');
         break;
 
       case 'gif':
@@ -429,20 +432,7 @@ function receivedAccountLink(event) {
  *
  */
 function sendImageMessage(recipientId, filename, metadata) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "image",
-        payload: {
-          url: SERVER_URL + "/assets/" + filename
-        }
-      },
-      metadata: metadata
-    }
-  };
+  var messageData =  messagebuilder.buildImageMessage(recipientId, filename, metadata);
 
   callSendAPI(messageData);
 }
