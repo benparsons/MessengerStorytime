@@ -41,6 +41,10 @@ var buildTextMessage = function(recipientId, messageText, metadata) {
 var buildListMessage = function(recipientId, stateContent) {
   console.log(stateContent);
 
+  if (!stateContent.responses || stateContent.responses.length === 0) {
+    return buildTextMessage(recipientId, "THE END");
+  }
+
   if (stateContent.responses.length === 1) {
     return messageData = {
       recipient: {
