@@ -326,7 +326,7 @@ function receivedMessage(event) {
         break;
 
       case 'start':
-        sendStart(senderID);
+        sendState(senderID, "start");
         break;
 
       default:
@@ -335,6 +335,15 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
+}
+
+function sendState(recipientId, stateIndex, previousPart) {
+  console.log('sendStateAsButton: ' + stateIndex);
+  var stateContent = content[stateIndex];
+  console.log(stateContent);
+
+  sendTextMessage(recipientId, stateContent.text, stateIndex + ",text");
+
 }
 
 
@@ -477,20 +486,6 @@ function sendReadReceipt(recipientId) {
   };
 
   callSendAPI(messageData);
-}
-
-function sendStart(recipientId) {
-  sendState(recipientId, "start");
-}
-
-function sendState(recipientId, stateIndex) {
-  console.log('sendStateAsButton: ' + stateIndex);
-  var stateContent = content[stateIndex];
-  console.log(stateContent);
-  console.log(stateContent.text);
-
-  sendTextMessage(recipientId, stateContent.text, stateIndex + ",text");
-
 }
 
 function sendStateAsButton(recipientId, stateIndex) {
