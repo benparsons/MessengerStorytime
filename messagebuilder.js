@@ -40,6 +40,28 @@ var buildTextMessage = function(recipientId, messageText, metadata) {
 
 var buildListMessage = function(recipientId, stateContent) {
   console.log(stateContent);
+
+  if (stateContent.responses.length === 1) {
+    return messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: stateContent.responses[0].text,
+            buttons:[{
+              type: "postback",
+              title: stateContent.responses[0].text,
+              payload: stateContent.responses[0].link
+            }]
+          }
+        }
+      }
+    }
+  }
   var messageData = {
     recipient: {
       id: recipientId
