@@ -102,7 +102,7 @@ app.post('/webhook', function (req, res) {
         } else if (messagingEvent.message) {
           receivedMessage(messagingEvent);
         } else if (messagingEvent.delivery) {
-          receivedDeliveryConfirmation(messagingEvent);
+          //receivedDeliveryConfirmation(messagingEvent);
         } else if (messagingEvent.postback) {
           receivedPostback(messagingEvent);
         } else if (messagingEvent.read) {
@@ -225,9 +225,9 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:", 
-    senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
+  // console.log("Received message for user %d and page %d at %d with message:", 
+  //   senderID, recipientID, timeOfMessage);
+  // console.log(JSON.stringify(message));
 
   var isEcho = message.is_echo;
   var messageId = message.mid;
@@ -242,32 +242,11 @@ function receivedMessage(event) {
 
   if (isEcho && metadata) {
     metadata = metadata.split(",");
-    if (metadata[1] === "text") {
-      sendSendStateListButtons(recipientID, metadata[0]);
-    }
-    console.log('===========');
-    console.log(metadata);
-    console.log('===========');
-    console.log(recipientID);
-    console.log('===========');
-    //sendStateAsButton(recipientID, metadata);
+    console.log("Echo for state " + metadata[0] + " part " + metadata[1]);
+    sendState(recipientID, metadata[0], metadata[1]);
   }
 
-  if (isEcho) {
-    // Just logging message echoes to console
-    console.log("Received echo for message %s and app %d with metadata %s", 
-      messageId, appId, metadata);
-    return;
-  } else if (quickReply) {
-    var quickReplyPayload = quickReply.payload;
-    console.log("Quick reply for message %s with payload %s",
-      messageId, quickReplyPayload);
-
-    sendTextMessage(senderID, "Quick reply tapped");
-    return;
-  }
-
-  if (messageText) {
+  if (!isEcho && messageText) {
 
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
@@ -330,19 +309,50 @@ function receivedMessage(event) {
         break;
 
       default:
+        console.log("blah blah:" + messageText);
         sendTextMessage(senderID, messageText);
     }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
   }
 }
 
 function sendState(recipientId, stateIndex, previousPart) {
-  console.log('sendStateAsButton: ' + stateIndex);
+  console.log('sendState: ' + stateIndex + " previousPart: " + previousPart);
   var stateContent = content[stateIndex];
   console.log(stateContent);
 
-  sendTextMessage(recipientId, stateContent.text, stateIndex + ",text");
+  // if there is an image to send, and nothing has yet been sent
+  if (stateContent.image && ! previousPart) {
+    console.log("condition 1");
+    sendImageMessage(recipientId, stateContent.image, stateIndex + ",image");
+  }
+
+  // if there is no image and nothing has been sent yet, OR if we previously sent an image
+  if ((! stateContent.image && ! previousPart) || previousPart === "image") {
+    console.log("condition 2");
+    // if there are no responses, this must be the last text
+    if (stateContent.responses.length === 0) {
+      console.log("condition 3");
+      sendStateTextMessage(recipientId, stateContent.text, stateIndex + ",lasttext");
+    }
+    // if there is separate text and buttonText, we send text and wait for
+    // a responses before sending the list of buttons
+    else if (stateContent.responses[0].buttonText) {
+      console.log("condition 4");
+      sendStateTextMessage(recipientId, stateContent.text, stateIndex + ",text");
+    }
+    // if there is no buttonText, we just use the regular non-list buttons, so the
+    // text and buttons are sent together
+    else {
+      console.log("condition 5");
+      sendStateAsButton(recipientId, stateContent, stateIndex);
+      return;
+    }
+  }
+
+  if (previousPart === "text") {
+    console.log("condition 6");
+    sendSendStateListButtons(recipientId, metadata[0]);
+  }
 
 }
 
@@ -428,7 +438,7 @@ function receivedMessageRead(event) {
 function sendImageMessage(recipientId, filename, metadata) {
   var messageData =  messagebuilder.buildImageMessage(recipientId, filename, metadata);
 
-  callSendAPI(messageData);
+  callSendAPI(messageData, "sendImageMessage");
 }
 
 /*
@@ -450,7 +460,7 @@ function sendGifMessage(recipientId) {
     }
   };
 
-  callSendAPI(messageData);
+  callSendAPI(messageData, "sendGifMessage");
 }
 
 /*
@@ -458,15 +468,23 @@ function sendGifMessage(recipientId) {
  *
  */
 function sendTextMessage(recipientId, messageText, metadata) {
+  console.log(recipientId + " " + messageText + " " + metadata);
   var messageData = messagebuilder.buildTextMessage(recipientId, messageText, metadata); 
   console.log(messageData);
-  callSendAPI(messageData);
+  callSendAPI(messageData, "sendTextMessage");
+}
+
+function sendStateTextMessage(recipientId, messageText, metadata) {
+  console.log(recipientId + " " + messageText + " " + metadata);
+  var messageData = messagebuilder.buildTextMessage(recipientId, messageText, metadata); 
+  console.log(messageData);
+  callSendAPI(messageData, "sendStateTextMessage");
 }
 
 function sendSendStateListButtons(recipientId, stateIndex) {
   var messageData = messagebuilder.buildListMessage(recipientId, content[stateIndex]);
   console.log(messageData);
-  callSendAPI(messageData);
+  callSendAPI(messageData ,"sendSendStateListButtons");
 }
 
 
@@ -485,13 +503,12 @@ function sendReadReceipt(recipientId) {
     sender_action: "mark_seen"
   };
 
-  callSendAPI(messageData);
+  callSendAPI(messageData, "sendReadReceipt");
 }
 
-function sendStateAsButton(recipientId, stateIndex) {
-  console.log('sendStateAsButton: ' + stateIndex);
-  console.log(content[stateIndex]);
-  var stateContent = content[stateIndex];
+function sendStateAsButton(recipientId, stateContent) {
+  console.log('sendStateAsButton: ');
+  console.log(stateContent);
 
   var messageData = {
     recipient: {
@@ -518,7 +535,7 @@ function sendStateAsButton(recipientId, stateIndex) {
       });
   }
 
-  callSendAPI(messageData);
+  callSendAPI(messageData, "sendStateAsButton");
 }
 
 /*
@@ -526,7 +543,8 @@ function sendStateAsButton(recipientId, stateIndex) {
  * get the message id in a response 
  *
  */
-function callSendAPI(messageData) {
+function callSendAPI(messageData, caller) {
+  console.log("callSendAPI() from " + caller);
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -556,8 +574,8 @@ function callSendAPI(messageData) {
 // certificate authority.
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
-  console.log('content var:');
-  console.log(content);
+  // console.log('content var:');
+  // console.log(content);
 });
 
 module.exports = app;
