@@ -240,13 +240,17 @@ function receivedMessage(event) {
   var quickReply = message.quick_reply;
 
 
-  if (isEcho && metadata && messageAttachments && messageAttachments[0].type === 'image') {
+  if (isEcho && metadata) {
+    metadata = metadata.split(",");
+    if (metadata[1] === "text") {
+      sendSendStateListButtons(recipientID, metadata[0]);
+    }
     console.log('===========');
-    console.log(messageAttachments);
+    console.log(metadata);
     console.log('===========');
     console.log(recipientID);
     console.log('===========');
-    sendStateAsButton(recipientID, metadata);
+    //sendStateAsButton(recipientID, metadata);
   }
 
   if (isEcho) {
@@ -529,17 +533,15 @@ function sendFileMessage(recipientId) {
  * Send a text message using the Send API.
  *
  */
-function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText,
-      metadata: "DEVELOPER_DEFINED_METADATA"
-    }
-  };
+function sendTextMessage(recipientId, messageText, metadata) {
+  var messageData = messagebuilder.buildTextMessage(recipientId, messageText, metadata); 
+  console.log(messageData);
+  callSendAPI(messageData);
+}
 
+function sendSendStateListButtons(recipientId, stateIndex) {
+  var messageData = messagebuilder.buildListMessage(recipientId, content[stateIndex]);
+  console.log(messageData);
   callSendAPI(messageData);
 }
 
@@ -800,7 +802,17 @@ function sendAccountLinking(recipientId) {
 
 
 function sendStart(recipientId) {
-  sendStateAsButton(recipientId, "start");
+  sendState(recipientId, "start");
+}
+
+function sendState(recipientId, stateIndex) {
+  console.log('sendStateAsButton: ' + stateIndex);
+  var stateContent = content[stateIndex];
+  console.log(stateContent);
+  console.log(stateContent.text);
+
+  sendTextMessage(recipientId, stateContent.text, stateIndex + ",text");
+
 }
 
 function sendStateAsButton(recipientId, stateIndex) {
