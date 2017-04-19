@@ -389,7 +389,7 @@ function receivedPostback(event) {
   if (content[payload].image) {
     sendImageMessage(senderID, content[payload].image, payload);
   } else {
-    sendStateAsButton(senderID, payload);
+    sendState(senderID, payload);
   }
 }
 
