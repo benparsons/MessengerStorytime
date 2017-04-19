@@ -28,13 +28,22 @@ fs.createReadStream(process.argv[2])
         sceneObj['text'] = sceneArray[2];
         var responses = [];
         if (sceneArray[3] && sceneArray[4]) {
-          responses.push({"text": sceneArray[3], "link": sceneArray[4]});
+          var response = {"text": sceneArray[3], "link": sceneArray[4]};
+          if (sceneArray[5]) { response.buttonText = sceneArray[5] };
+          if (sceneArray[6]) { response.buttonImage = sceneArray[6] };
+          responses.push(response);
         }
         if (sceneArray[7] && sceneArray[8]) {
-          responses.push({"text": sceneArray[7], "link": sceneArray[8]});
+          var response = {"text": sceneArray[7], "link": sceneArray[8]};
+          if (sceneArray[9]) { response.buttonText = sceneArray[9] };
+          if (sceneArray[10]) { response.buttonImage = sceneArray[10] };
+          responses.push(response);
         }
         if (sceneArray[11] && sceneArray[12]) {
-          responses.push({"text": sceneArray[11], "link": sceneArray[12]});
+          var response = {"text": sceneArray[11], "link": sceneArray[12]};
+          if (sceneArray[13]) { response.buttonText = sceneArray[13] };
+          if (sceneArray[14]) { response.buttonImage = sceneArray[14] };
+          responses.push(response);
         }
         sceneObj['responses'] = responses;
         results[sceneArray[0]] = sceneObj;
