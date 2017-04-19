@@ -58,7 +58,7 @@ var buildListMessage = function(recipientId, stateContent) {
             text: stateContent.responses[0].text,
             buttons:[{
               type: "postback",
-              title: stateContent.responses[0].text,
+              title: stateContent.responses[0].buttonText,
               payload: stateContent.responses[0].link
             }]
           }
@@ -89,8 +89,8 @@ var buildListMessage = function(recipientId, stateContent) {
       "buttons" : [
         {
           type: "postback",
-          title: stateContent.responses[i].text,
-      payload: stateContent.responses[i].link
+          title: stateContent.responses[i].buttonText,
+          payload: stateContent.responses[i].link
 
         }
       ]

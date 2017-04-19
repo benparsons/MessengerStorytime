@@ -351,7 +351,7 @@ function sendState(recipientId, stateIndex, previousPart) {
 
   if (previousPart === "text") {
     console.log("condition 6");
-    sendSendStateListButtons(recipientId, metadata[0]);
+    sendSendStateListButtons(recipientId, stateIndex);
   }
 
 }
@@ -405,11 +405,7 @@ function receivedPostback(event) {
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   sendTextMessage(senderID, "Postback called: " + payload);
-  if (content[payload].image) {
-    sendImageMessage(senderID, content[payload].image, payload);
-  } else {
-    sendState(senderID, payload);
-  }
+  sendState(senderID, payload);
 }
 
 /*
