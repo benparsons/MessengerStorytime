@@ -305,6 +305,7 @@ function receivedMessage(event) {
         break;
 
       case 'start':
+      case 'Start':
         sendState(senderID, "start");
         break;
 
