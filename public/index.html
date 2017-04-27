@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Impractical London Underground</title>
+    <style>
+
+        .node {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 1px;
+        }
+
+        .link {
+            stroke: #777;
+            stroke-width: 2px;
+        }
+
+
+    </style>
+</head>
+<body>
+<script src='d3.min.js'></script>
+<script>
+
+    // Define the dimensions of the visualization. We're using
+    // a size that's convenient for displaying the graphic on
+    // http://jsDataV.is
+
+    var width = 1000,
+            height = 1000;
+
+    var col1 = width / 4;
+    var col2 = width / 2;
+    var col3 = (width / 4) * 3;
+
+    // Here's were the code begins. We start off by creating an SVG
+    // container to hold the visualization. We only need to specify
+    // the dimensions for this container.
+
+    var svg = d3.select('body').append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+    // Before we do anything else, let's define the data for the visualization.
+
+    var gridSize = 75;
+
+    var graph = {};
+
+    d3.json("murdermystery.json", function(error, murdermystery) {
+      if (error) throw error;
+
+      graph = {nodes: [], links: []};
+
+      for (var node_name in murdermystery) {
+        graph.nodes.push({station: node_name, name: node_name});
+        for (var link_name in murdermystery[node_name].responses) {
+          graph.links.push({source: node_name, target: murdermystery[node_name].responses[link_name].link});
+        }
+      }
+
+
+
+    // Extract the nodes and links from the data.
+    var nodes = graph.nodes,
+            links = graph.links;
+
+    // Now we create a force layout object and define its properties.
+    // Those include the dimensions of the visualization and the arrays
+    // of nodes and links.
+
+    var force = d3.layout.force()
+            .size([width, height])
+            .nodes(nodes)
+            .links(links);
+
+    // There's one more property of the layout we need to define,
+    // its `linkDistance`. That's generally a configurable value and,
+    // for a simple example, we'd normally leave it at its default.
+    // Unfortunately, the default value results in a visualization
+    // that's not especially clear. This parameter defines the
+    // distance (normally in pixels) that we'd like to have between
+    // nodes that are connected. (It is, thus, the length we'd
+    // like our links to have.)
+
+    //force.linkDistance(10);
+    force.charge(-100);
+    force.gravity(0.02);
+    force.linkStrength(200);
+
+    // Next we'll add the nodes and links to the visualization.
+    // Note that we're just sticking them into the SVG container
+    // at this point. We start with the links. The order here is
+    // important because we want the nodes to appear "on top of"
+    // the links. SVG doesn't really have a convenient equivalent
+    // to HTML's `z-index`; instead it relies on the order of the
+    // elements in the markup. By adding the nodes _after_ the
+    // links we ensure that nodes appear on top of links.
+
+    // Links are pretty simple. They're just SVG lines, and
+    // we're not even going to specify their coordinates. (We'll
+    // let the force layout take care of that.) Without any
+    // coordinates, the lines won't even be visible, but the
+    // markup will be sitting inside the SVG container ready
+    // and waiting for the force layout.
+
+    var link = svg.selectAll('.link')
+            .data(links)
+            .enter().append('line')
+            .attr('class', 'link');
+
+    // Now it's the nodes turn. Each node is drawn as a circle.
+
+    // Create the groups under svg
+    var gnodes = svg.selectAll('g.gnode')
+            .data(graph.nodes)
+            .enter()
+            .append('g')
+            .classed('gnode', true).call(force.drag);
+
+    // Add one circle in each group
+    var node = gnodes.append("circle")
+            .attr("class", "node")
+            .attr("r", 5);
+
+    // Append the labels to each group
+    var labels = gnodes.append("text").attr("style", "font-family: Arial; font-size: 10; ")
+
+            .text(function (d) {
+                if (d.name) return d.station + " " + d.name;
+                var label = "";
+                if (label.length === 0) label += d.station;
+                return label;
+            });
+
+
+    // We're about to tell the force layout to start its
+    // calculations. We do, however, want to know when those
+    // calculations are complete, so before we kick things off
+    // we'll define a function that we want the layout to call
+    // once the calculations are done.
+
+    force.on('tick', function () {
+
+        // When this function executes, the force layout
+        // calculations have concluded. The layout will
+        // have set various properties in our nodes and
+        // links objects that we can use to position them
+        // within the SVG container.
+
+        // First let's reposition the nodes. As the force
+        // layout runs it updates the `x` and `y` properties
+        // that define where the node should be centered.
+        // To move the node, we set the appropriate SVG
+        // attributes to their new values. Also give the
+        // nodes a non-zero radius so they're visible.
+
+
+        // Translate the groups
+        gnodes.attr("transform", function (d) {
+            return 'translate(' + [d.x, d.y] + ')';
+        });
+
+        link.attr("x1", function (d) {
+            var element = graph.nodes.find(function (element) {
+                return element.name === d.source;
+                });
+            return element.x;
+        })
+        .attr("y1", function (d) {
+            var element = graph.nodes.find(function (element) {
+                return element.name === d.source;
+                });
+            return element.y;
+        })
+        .attr("x2", function (d) {
+            var element = graph.nodes.find(function (element) {
+                return element.name === d.target;
+                });
+            return element.x;
+        })
+        .attr("y2", function (d) {
+            var element = graph.nodes.find(function (element) {
+                return element.name === d.target;
+                });
+            return element.y;
+        })
+        .attr("class", function (d) {
+            return "link";
+        });
+
+
+
+    });
+
+    force.on('end', function () {
+        console.log("force end");
+    });
+
+        // Okay, everything is set up now so it's time to turn
+    // things over to the force layout. Here we go.
+
+    force.start();
+
+    });
+    // By the time you've read this far in the code, the force
+    // layout has probably finished its work.
+
+</script>
+</body>
+</html>
