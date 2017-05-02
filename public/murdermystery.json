@@ -24,7 +24,8 @@
       {
         "text": "Easy Mac",
         "link": "murderscene",
-        "buttonText": "Good!"
+        "buttonText": "Good!",
+        "buttonImage": "easy-mac.jpg"
       },
       {
         "text": "Persian cat",
