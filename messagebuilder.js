@@ -95,7 +95,7 @@ var buildListMessage = function(recipientId, stateContent) {
       ]
     };
     if (stateContent.responses[i].buttonImage) {
-      listButton.buttons[0].image_url = SERVER_URL + "/assets/" + stateContent.responses[i].buttonImage;
+      listButton.image_url = SERVER_URL + "/assets/" + stateContent.responses[i].buttonImage;
     }
     messageData.message.attachment.payload.elements.push(listButton);
   }
