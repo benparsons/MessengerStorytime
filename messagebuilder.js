@@ -2,7 +2,7 @@ var SERVER_URL;
 
 var setServerURL = function(url) {
   SERVER_URL = url;
-}
+};
 
 var buildLinkMessage = function() {
   console.log("messagebuilder.createLinkMessage");
@@ -23,7 +23,7 @@ var buildImageMessage = function(recipientId, filename, metadata) {
       metadata: metadata
     }
   };
-}
+};
 
 
 var buildTextMessage = function(recipientId, messageText, metadata) {
@@ -36,7 +36,7 @@ var buildTextMessage = function(recipientId, messageText, metadata) {
       metadata: metadata
     }
   };
-}
+};
 
 var buildListMessage = function(recipientId, stateContent) {
   console.log(stateContent);
@@ -64,7 +64,7 @@ var buildListMessage = function(recipientId, stateContent) {
           }
         }
       }
-    }
+    };
   }
   var messageData = {
     recipient: {
@@ -83,8 +83,7 @@ var buildListMessage = function(recipientId, stateContent) {
   };
 
   for (var i in stateContent.responses) {
-  messageData.message.attachment.payload.elements.push(
-    {
+    var listButton = {
       title: stateContent.responses[i].text,
       "buttons" : [
         {
@@ -94,11 +93,15 @@ var buildListMessage = function(recipientId, stateContent) {
 
         }
       ]
-    });
+    };
+    if (stateContent.responses[i].buttonImage) {
+      listButton.buttons[0].image_url = SERVER_URL + "/assets/" + stateContent.responses[i].buttonImage;
+    }
+    messageData.message.attachment.payload.elements.push(listButton);
   }
 
   return messageData;
-}
+};
 
 module.exports = {
   setServerURL: setServerURL,
