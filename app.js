@@ -408,7 +408,9 @@ function receivedPostback(event) {
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
   if (payload === 'bug') {
-    sendTextMessage(senderID, "Thanks for reporting this, we'll have a look. :)\n\nIf you're able to keep playing, please do!")
+    sendTextMessage(senderID, "Thanks for reporting this, we'll have a look. :)\n\n" 
+      + "If you're able to keep playing, please do!");
+    return;
   }
 
   // When a postback is called, we'll send a message back to the sender to 
