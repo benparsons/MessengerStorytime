@@ -356,7 +356,13 @@ function sendState(recipientId, stateIndex, previousPart) {
   }
 
   if (previousPart === "lasttext") {
-    sendStateTextMessage(recipientId, "THE END", stateIndex + ",end");
+    stateContent = {
+      text: "THE END",
+      responses: [
+        { text:"Restart", link:"start" }
+      ]
+    };
+    sendStateAsButton(recipientId, stateContent, stateIndex + ",end");
   }
 
 }
