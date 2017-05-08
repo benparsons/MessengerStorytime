@@ -1,5 +1,7 @@
 'use strict';
 
+// curl -X GET https://docs.google.com/spreadsheets/d/13pmWGUAag6QRZ3tvalzhZH6OxFvdfhnl8d_qJ0PipSY/export?format=csv
+
 var fs = require('fs'); 
 var parse = require('csv-parse');
 
