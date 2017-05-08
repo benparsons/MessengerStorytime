@@ -50,7 +50,7 @@
     ]
   },
   "ballroom-1": {
-    "text": "You rush into the ballroom and push past the gathered crowd and see the body of BUTLER DAVE, everybody's favorite butler, blood-soaked on the floor. You look around at the panicked faces of the party guests, but you are cool as...",
+    "text": "You rush into the ballroom and push past the gathered crowd and see the body of BUTLER DAVE, everybody's favorite butler, blood-soaked on the floor. \n\nYou look around at the panicked faces of the party guests, but you are cool as...",
     "responses": [
       {
         "text": "…a cucumber",
@@ -224,16 +224,16 @@
     "text": "Unable to contain yourself any longer, the words burst out of your mouth before you're even aware of them.\n\n\"Dr. Whittington-Face, please give me some wisdom about backs!\" Dr. Whittington-Face has a faraway gaze and a knowing smile. \n\n\"Well, my child,\" he says, \"A back is never as straight as the first time.\" \n\nYou take a moment to soak in his words, awed by his insight, but quickly force yourself to regain composure and continue detecting.",
     "responses": [
       {
-        "text": "Ask another witness",
-        "link": "witnesshub-1"
+        "text": "Ask about the murder",
+        "link": "witness-1-1"
       },
       {
         "text": "Inpsect the body",
         "link": "victim-1"
       },
       {
-        "text": "Ask about the murder",
-        "link": "witness-1-1"
+        "text": "Ask another witness",
+        "link": "witnesshub-1"
       }
     ]
   },
@@ -466,7 +466,7 @@
     "responses": []
   },
   "version": {
-    "text": "1",
+    "text": "2",
     "responses": []
   }
 }
