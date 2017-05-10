@@ -21,6 +21,13 @@ const
 
 var messagebuilder = require('./messagebuilder');
 
+var dburl = false;
+if (process.env.MONGODB_URI) {
+  dburl = process.env.MONGODB_URI;
+}
+var mongojs = require('mongojs');
+var db = mongojs(dburl, ['messages']);
+
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -112,6 +119,12 @@ app.post('/webhook', function (req, res) {
         } else {
           console.log("Webhook received unknown messagingEvent: ", messagingEvent);
         }
+
+        db.messages.insert({
+          "type": "received",
+          "t": new Date(),
+          "message": messagingEvent
+        });
       });
     });
 
@@ -558,6 +571,7 @@ function sendStateAsButton(recipientId, stateContent) {
  */
 function callSendAPI(messageData, caller) {
   console.log("callSendAPI() from " + caller);
+
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -572,14 +586,27 @@ function callSendAPI(messageData, caller) {
       if (messageId) {
         console.log("Successfully sent message with id %s to recipient %s", 
           messageId, recipientId);
+
+        db.messages.insert({
+          "type": "sent",
+          "t": new Date(),
+          "message": messageData,
+          "response": body
+        });
       } else {
       console.log("Successfully called Send API for recipient %s", 
         recipientId);
+
+        db.messages.insert({
+          "type": "sent",
+          "t": new Date(),
+          "message": messageData
+        });
       }
     } else {
       console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
     }
-  });  
+  });
 }
 
 // Start server
